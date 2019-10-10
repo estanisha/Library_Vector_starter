@@ -77,11 +77,15 @@ int checkout(int bookid, int patronid) {
 			}
 			patrons[i].number_books_checked_out =
 					patrons[i].number_books_checked_out + 1;
+			savePatrons(patrons, PATRONFILE.c_str());
+			saveBooks(books, BOOKFILE.c_str());
 			for (int j = 0; j < books.size(); j++) {
-				if (books[i].book_id == bookid) {
-					if (books[i].state != OUT) {
-						books[i].state = OUT;
-						books[i].loaned_to_patron_id = patronid;
+				if (books[j].book_id == bookid) {
+					if (books[j].state != OUT) {
+						books[j].state = OUT;
+						books[j].loaned_to_patron_id = patronid;
+						savePatrons(patrons, PATRONFILE.c_str());
+						saveBooks(books, BOOKFILE.c_str());
 						return SUCCESS;
 					}
 				}
